@@ -15,7 +15,7 @@ public class KeepRenderOn {
     @Scheduled(fixedRate = (1000 * 60 * 14))
     public void executeTask() throws ClientProtocolException, IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet request = new HttpGet("https://pmg-es-2024-1-ti3-9577100-distribuidora.onrender.com/keeprenderon");
+        HttpGet request = new HttpGet("https://distribuidoraferreira-back.onrender.com/keeprenderon");
         httpClient.execute(request);
     }
 }
