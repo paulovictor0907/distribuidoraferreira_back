@@ -1,6 +1,5 @@
 package com.distribuidoraferreira.backend.services.interfaces;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -23,6 +22,8 @@ public interface ProdutoService {
     GenericResponse<List<ProdutoResponse>> getProdutos();
 
     GenericResponse<ProdutoResponse> deleteProduto(Long id);
+
+    GenericResponse<Boolean> deleteImages();
 
     GenericResponse<ProdutoResponse> deleteImage(String ImageID);
 

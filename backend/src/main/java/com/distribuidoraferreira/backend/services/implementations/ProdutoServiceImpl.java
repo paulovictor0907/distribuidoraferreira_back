@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.distribuidoraferreira.backend.api_tools.ByteToFileConverter;
+import com.distribuidoraferreira.backend.api_tools.Enviroments;
 import com.distribuidoraferreira.backend.api_tools.Upload_Helper;
 import com.distribuidoraferreira.backend.dtos.BasicResponse;
 import com.distribuidoraferreira.backend.dtos.ErrorResponse;
@@ -26,6 +27,7 @@ import com.distribuidoraferreira.backend.services.exceptions.CategoriaNotFoundEx
 import com.distribuidoraferreira.backend.services.exceptions.CategoriaProdutoBadRequestException;
 import com.distribuidoraferreira.backend.services.exceptions.ProdutoNotFoundException;
 import com.distribuidoraferreira.backend.services.interfaces.ProdutoService;
+import com.uploadcare.api.Client;
 import com.uploadcare.api.File;
 
 import lombok.RequiredArgsConstructor;
@@ -146,6 +148,17 @@ public class ProdutoServiceImpl implements ProdutoService {
             return new BasicResponse<ProdutoResponse>(null, 204);
         }
         return new BasicResponse<ProdutoResponse>(null, 404);
+    }
+
+    @Override
+    public GenericResponse<Boolean> deleteImages() {
+        Client client = new Client(Enviroments.UPLOADCARE_PUBLIC_KEY, Enviroments.UPLOADCARE_SECRET_KEY);
+        Iterable<File> files = client.getFiles().asIterable();
+        boolean deleted = false;
+        for (File file : files) {
+            file.delete();
+        }
+        return new BasicResponse<Boolean>(deleted, 200);
     }
 
     private Categoria findCategoriaByNome(String nome) {

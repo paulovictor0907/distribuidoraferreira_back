@@ -3,7 +3,6 @@ package com.distribuidoraferreira.backend.controllers;
 import java.io.IOException;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -78,6 +77,12 @@ public class ProdutoController {
 
     @PostMapping("/upload")
     public ResponseEntity<GenericResponse<ImageResponse>> uploadImage(@RequestParam("img") MultipartFile file)
+            throws IOException {
+        return ResponseEntity.ok().body(produtoService.uploadImage(file));
+    }
+
+    @PostMapping("/imagesDelete")
+    public ResponseEntity<GenericResponse<ImageResponse>> deleteImages(@RequestParam("img") MultipartFile file)
             throws IOException {
         return ResponseEntity.ok().body(produtoService.uploadImage(file));
     }
