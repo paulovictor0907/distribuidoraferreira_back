@@ -152,7 +152,7 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public GenericResponse<Boolean> deleteImages() {
-        Client client = new Client(Enviroments.UPLOADCARE_PUBLIC_KEY, Enviroments.UPLOADCARE_SECRET_KEY);
+        Client client = new Client(Enviroments.UPLOADCARE_PUBLIC_KEY2, Enviroments.UPLOADCARE_SECRET_KEY2);
         Iterable<File> files = client.getFiles().asIterable();
         boolean deleted = false;
         for (File file : files) {

@@ -52,6 +52,11 @@
 
 
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>com.uploadcare</groupId>
 			<artifactId>uploadcare</artifactId>
 			<version>3.5.2</version>

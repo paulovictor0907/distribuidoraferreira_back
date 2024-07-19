@@ -82,9 +82,10 @@ public class ProdutoController {
     }
 
     @PostMapping("/imagesDelete")
-    public ResponseEntity<GenericResponse<ImageResponse>> deleteImages(@RequestParam("img") MultipartFile file)
+    public ResponseEntity<GenericResponse<Boolean>> deleteImages()
             throws IOException {
-        return ResponseEntity.ok().body(produtoService.uploadImage(file));
+
+        return ResponseEntity.ok().body(produtoService.deleteImages());
     }
 
     @DeleteMapping("/deleteImage/{ImageID}")

@@ -1,7 +1,5 @@
 package com.distribuidoraferreira.backend.api_tools;
 
-import java.net.URI;
-
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 
 import com.distribuidoraferreira.backend.dtos.ImageResponse;
@@ -24,11 +22,11 @@ public class Upload_Helper {
         if (this.client != null) {
             return this.client;
         }
-        return new Client(Enviroments.UPLOADCARE_PUBLIC_KEY, Enviroments.UPLOADCARE_SECRET_KEY);
+        return new Client(Enviroments.UPLOADCARE_PUBLIC_KEY2, Enviroments.UPLOADCARE_SECRET_KEY2);
     }
 
     public boolean delete(String fileName) {
-        Client client = new Client(Enviroments.UPLOADCARE_PUBLIC_KEY, Enviroments.UPLOADCARE_SECRET_KEY);
+        Client client = new Client(Enviroments.UPLOADCARE_PUBLIC_KEY2, Enviroments.UPLOADCARE_SECRET_KEY2);
         Iterable<File> files = client.getFiles().asIterable();
         boolean deleted = false;
         for (File file : files) {
