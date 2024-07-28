@@ -111,19 +111,16 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     private GenericResponse<Produto> updateProdutoByProdutoRequest(ProdutoRequest produtoRequest, Produto produto) {
         produto.setNome(produtoRequest.getNome());
-        produto.setCodBarras(produtoRequest.getCodBarras());
         produto.setPreco(produtoRequest.getPreco());
+        produto.setPrecoConsumo(produtoRequest.getPrecoConsumo());
         produto.setImg(produtoRequest.getImg());
-        produto.setQuantidadeEstoque(produtoRequest.getQuantidadeEstoque());
-        produto.setCategoria(findCategoriaByNome(produto.getCategoria().getNome()));
-
-        return new BasicResponse<Produto>(produto, 200);
+        produto.setCategoria(findCategoriaByNome(produtoRequest.getCategoriaRequest().getNome()));
+        return new BasicResponse<>(produto, 200);
     }
 
     @Override
     public GenericResponse<ImageResponse> uploadImage(MultipartFile file) throws IOException {
-        return new BasicResponse<ImageResponse>(
-                uploadHelper.uploadImage(ByteToFileConverter.convertMultipartFileToFile(file)), 200);
+        return new BasicResponse<>(uploadHelper.uploadImage(ByteToFileConverter.convertMultipartFileToFile(file)), 200);
     }
 
     @Override
