@@ -115,6 +115,7 @@ public class ProdutoServiceImpl implements ProdutoService {
         produto.setPrecoConsumo(produtoRequest.getPrecoConsumo());
         produto.setImg(produtoRequest.getImg());
         produto.setCategoria(findCategoriaByNome(produtoRequest.getCategoriaRequest().getNome()));
+        System.out.println(produto.getQuantidadeEstoque());
         return new BasicResponse<>(produto, 200);
     }
 

@@ -1,5 +1,11 @@
 package com.distribuidoraferreira.backend.services.implementations;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import com.distribuidoraferreira.backend.dtos.BasicResponse;
 import com.distribuidoraferreira.backend.dtos.CaixaDetailsResponse;
 import com.distribuidoraferreira.backend.dtos.CaixaRequest;
@@ -16,12 +22,6 @@ import com.distribuidoraferreira.backend.repositories.ComandaRepository;
 import com.distribuidoraferreira.backend.services.interfaces.CaixaService;
 
 import lombok.AllArgsConstructor;
-
-import org.springframework.stereotype.Service;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -146,18 +146,16 @@ public class CaixaServiceImpl implements CaixaService {
             return new BasicResponse<>(null, 404);
         }
 
-        caixa.get().getVendas().forEach(action -> {
-            System.out.println(action.getMetodoPagamento());
-            System.out.println(action.getTotalVenda());
-        });
-
         DetalhesCaixa detalhesCaixa = new DetalhesCaixa();
 
         caixa.get().getVendas().stream().forEach(action -> {
-            detalhesCaixa.setDebito(detalhesCaixa.getDebito() + action.getTotalPagoDebito());
-            detalhesCaixa.setCredito(detalhesCaixa.getCredito() + action.getTotalPagoCredito());
+            detalhesCaixa.setDebito(detalhesCaixa.getDebito() +
+                    action.getTotalPagoDebito());
+            detalhesCaixa.setCredito(detalhesCaixa.getCredito() +
+                    action.getTotalPagoCredito());
             detalhesCaixa.setPix(detalhesCaixa.getPix() + action.getTotalPagoPix());
-            detalhesCaixa.setDinheiro(detalhesCaixa.getDinheiro() + action.getTotalPagoDinheiro());
+            detalhesCaixa.setDinheiro(detalhesCaixa.getDinheiro() +
+                    action.getTotalPagoDinheiro());
         });
 
         CaixaDetailsResponse response = caixaMapper.caixaToCaixaDetailsResponse(detalhesCaixa);

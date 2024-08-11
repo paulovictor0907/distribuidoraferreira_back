@@ -86,27 +86,46 @@ public class VendaServiceImpl implements VendaService {
         });
 
         Venda venda = vendaMapper.vendaRequestToVenda(vendaRequest);
-        ContaCliente contaCliente = new ContaCliente();
+        Optional<Caixa> caixa = caixaRepository.findCaixaByStatusAberto();
 
         venda.setTotalPagoCredito(0.0);
         venda.setTotalPagoDebito(0.0);
         venda.setTotalPagoDinheiro(0.0);
         venda.setTotalPagoPix(0.0);
-        venda.setTotalPago(0.0);
+
+        ContaCliente contaCliente = new ContaCliente();
 
         setMovimentacoes(venda, vendaRequest.movimentacaoEstoque());
-        setCaixaVenda(venda);
         setStatusVenda(venda);
+
         if (venda.getMetodoPagamento().equals("CONTACLIENTE")) {
             venda.setMetodoPagamento("A_PAGAR");
             contaCliente.setId(vendaRequest.contaCliente().getIdCliente());
             setContaCliente(venda, contaCliente);
         }
 
-        venda.getCaixa().setFaturamentoDia(venda.getCaixa().getFaturamentoDia() + venda.getTotalVenda());
+        caixa.get().setFaturamentoDia(caixa.get().getFaturamentoDia() + venda.getTotalVenda());
+        venda.setCaixa(caixa.get());
 
-        vendaRepository.saveAndFlush(venda);
+        switch (venda.getMetodoPagamento()) {
+            case "PIX" -> {
+                venda.setTotalPagoPix(venda.getTotalVenda());
+            }
+            case "DINHEIRO" -> {
+                venda.setTotalPagoDinheiro(venda.getTotalVenda());
+            }
+            case "CREDITO" -> {
+                venda.setTotalPagoCredito(venda.getTotalVenda());
+            }
+            case "DEBITO" -> {
+                venda.setTotalPagoDebito(venda.getTotalVenda());
+            }
+            default -> {
+            }
+        }
 
+
+        vendaRepository.save(venda);
         return new BasicResponse<>("Venda criada com sucesso", 200);
     }
 
@@ -208,13 +227,6 @@ public class VendaServiceImpl implements VendaService {
         ContaCliente c = clienteRepository.save(contaCliente.get());
         if (contaCliente.isPresent()) {
             venda.setContaCliente(c);
-        }
-    }
-
-    private void setCaixaVenda(Venda venda) {
-        Optional<Caixa> caixa = caixaRepository.findCaixaByStatusAberto();
-        if (caixa.isPresent()) {
-            venda.setCaixa(caixa.get());
         }
     }
 

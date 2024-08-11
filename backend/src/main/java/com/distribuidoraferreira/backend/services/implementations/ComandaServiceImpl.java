@@ -147,8 +147,8 @@ public class ComandaServiceImpl implements ComandaService {
     public GenericResponse<String> addItemComanda(Long id, List<ItemComandaRequest> itemComandaRequest) {
         Optional<Comanda> comanda = comandaRepository.findById(id);
         Optional<Caixa> caixa = caixaRepository.findCaixaByStatusAberto();
-        GenericResponse<String> statusValidationComanda = validarComanda(id, comanda);
-        GenericResponse<String> statusValidationItemComanda = validarItemComanda(id, itemComandaRequest);
+        GenericResponse<String> statusValidationComanda = validarComanda(comanda);
+        GenericResponse<String> statusValidationItemComanda = validarItemComanda(itemComandaRequest);
 
         if (!caixa.isPresent()) {
             return new BasicResponse<>("Caixa do dia nao foi aberto ainda!", 400);
@@ -333,7 +333,7 @@ public class ComandaServiceImpl implements ComandaService {
 
     // FUNÇÕES DE VALIDAÇÃO
 
-    private BasicResponse<String> validarItemComanda(Long id, List<ItemComandaRequest> itemComandaRequest) {
+    private BasicResponse<String> validarItemComanda(List<ItemComandaRequest> itemComandaRequest) {
 
         if (itemComandaRequest.isEmpty()) {
             return new BasicResponse<>("Lista de itens vazia", 400);
@@ -359,7 +359,7 @@ public class ComandaServiceImpl implements ComandaService {
         return new BasicResponse<>("", 200);
     }
 
-    private BasicResponse<String> validarComanda(Long id, Optional<Comanda> comanda) {
+    private BasicResponse<String> validarComanda(Optional<Comanda> comanda) {
         if (comanda.isEmpty()) {
             return new BasicResponse<>("Comanda nao encontrada", 404);
         }
