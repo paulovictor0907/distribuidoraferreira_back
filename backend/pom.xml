@@ -44,12 +44,6 @@
 			<version>4.5.13</version>
 		</dependency>
 
-		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>mssql-jdbc</artifactId>
-			<version>9.2.1.jre8</version> <!-- Verifique se esta é a versão mais recente -->
-		</dependency>
-
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
